@@ -1,9 +1,0 @@
-# Serve index.html for all requests
-FallbackResource /index.html
-
-# Rewrite URLs to remove the base path
-RewriteEngine On
-RewriteBase /footprints/
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /footprints/index.html [L]
