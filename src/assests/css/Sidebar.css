@@ -1,0 +1,152 @@
+.content__container {
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  display: flex;
+  flex-direction: "row";
+  flex: 2;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1em;
+  border-bottom: 1px solid rgb(231, 231, 231);
+}
+.header .logo > img {
+  max-width: 50px;
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1em;
+}
+.content__container .brand p span:nth-child(1) {
+  padding-right: 0.6em;
+}
+.content__container .brand p:nth-child(1) {
+  padding: 0;
+  margin: 0;
+  font-size: 0.8rem;
+}
+.content__container .brand p:last-child {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgb(110, 109, 109);
+}
+.content__container .body .page__indicator {
+  border-bottom: 1px solid rgb(231, 231, 231);
+}
+.content__container .body .page__indicator .content {
+  padding: 15px 0;
+  width: 50%;
+  margin-left: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.content__container .body .page__indicator .content p {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgb(56, 56, 56);
+}
+.content__container .body .page__indicator .content p:last-child {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: rgb(110, 110, 110);
+}
+
+.content__container .body .page__indicator .content .MuiSvgIcon-root {
+  font-size: 1rem;
+  color: rgb(53, 53, 53);
+}
+.content__container .body .page__indicator .content #arrow {
+  font-size: 0.6rem;
+}
+.content__container .body .filters {
+  padding: 10px 0;
+  margin-bottom: 0.7em;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin-left: 12%;
+  border-bottom: 1px solid rgb(231, 231, 231);
+  margin-top: 1em;
+}
+.content__container .body .filters p:first-child {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgb(53, 52, 52);
+}
+.content__container .body .price__range {
+  padding: 10px 0;
+  border-bottom: none;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin-left: 12%;
+}
+
+.content__container .body .price__range .price__details {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content__container .body .price__range .price__details span {
+  font-size: 0.6rem;
+  background-color: rgb(243, 8, 74);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.content__container .body .price__range .price__details span:first-child {
+  margin-right: 1em;
+}
+
+.content__container .body .type {
+  border-top: 1px solid rgb(231, 231, 231);
+  padding-top: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.content__container .body .product__brand {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.content__container .body .size {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.content__container .body .filter__btn {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.content__container .body .filter__btn button {
+  padding: 6px;
+  border: none;
+  background-color: rgb(243, 8, 74);
+  color: #ffffff;
+  border-radius: 5px;
+  flex: 9;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+}
+.content__container .body .filter__btn .remove__icon {
+  flex: 2;
+  font-weight: 500;
+  color: rgb(53, 53, 53);
+}
+.content__container .body .filter__btn .remove__icon:hover {
+  cursor: pointer;
+}
+
+.expand__icon {
+  color: rgb(151, 151, 151);
+}

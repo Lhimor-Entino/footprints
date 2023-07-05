@@ -1,0 +1,27 @@
+.searchBar__container .searchBar__footer .search__filter__items {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  padding: 1px 6px;
+  background-color: rgba(253, 156, 182, 0.3);
+  color: #444343;
+  align-items: center;
+  border-radius: 3px;
+  margin-right: 0.5em;
+}
+.searchBar__container .searchBar__footer .search__filter__items span {
+  font-size: 0.7rem;
+  margin-right: 5px;
+}
+.searchBar__container
+  .searchBar__footer
+  .search__filter__items
+  .MuiSvgIcon-root:hover {
+  cursor: pointer;
+}
+.searchBar__container
+  .searchBar__footer
+  .search__filter__items
+  .MuiSvgIcon-root {
+  font-size: 0.6rem;
+}

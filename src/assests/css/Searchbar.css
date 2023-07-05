@@ -1,0 +1,72 @@
+.searchBar__container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
+.searchBar__container .searchBar__body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+.searchBar__container .searchBar__body .search__input {
+  flex: 8;
+  display: flex;
+  justify-content: row;
+  align-items: center;
+  border: 1px solid rgb(240, 240, 240);
+  border-radius: 5px;
+}
+
+.searchBar__container .searchBar__body .search__input .MuiSvgIcon-root {
+  padding: 5px 10px;
+  font-size: 1.3rem;
+  color: rgb(119, 119, 119);
+}
+.searchBar__container .searchBar__body .search__input input {
+  width: 100%;
+  border: none;
+  border-left: 1px solid rgb(231, 231, 231);
+  background: none;
+  padding-left: 10px;
+  color: rgb(119, 119, 119);
+  font-size: 0.7rem;
+}
+.searchBar__container .searchBar__body .search__filter {
+  flex: 4;
+  display: flex;
+  justify-content: flex-end;
+}
+.searchBar__container .searchBar__body .search__filter .search__select {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgb(240, 240, 240);
+  border-radius: 5px;
+}
+.searchBar__container
+  .searchBar__body
+  .search__filter
+  .search__select
+  .MuiSvgIcon-root {
+  padding: 5px 10px;
+  font-size: 1.3rem;
+  color: rgb(119, 119, 119);
+}
+.searchBar__container .searchBar__body .search__filter .search__select select {
+  width: 85%;
+  border: none;
+  background: none;
+  color: rgb(119, 119, 119);
+  border-left: 1px solid rgb(240, 240, 240);
+  outline: none;
+  font-size: 0.7rem;
+}
+
+.searchBar__container .searchBar__footer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5em;
+}

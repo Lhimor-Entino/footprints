@@ -1,0 +1,6 @@
+.body__container .body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
