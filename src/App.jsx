@@ -13,7 +13,7 @@ function App() {
   const [page, setPage] = useState("Catalog");
   return (
     <div className="App">
-      <Router basename="/footprints/">
+      <Router basename="/footprints">
         <div className="sidebar">
           <Sidebar page={page} setPage={setPage} />
         </div>
