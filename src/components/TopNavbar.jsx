@@ -10,16 +10,16 @@ function TopNavbar(props) {
       <div className="nav__list">
         <ul>
           <li>
-            <Link to="catalog">Catalog</Link>
+            <Link to="/catalog">Catalog</Link>
           </li>
           <li>
-            <Link to="new">New</Link>
+            <Link to="/new">New</Link>
           </li>
           <li>
-            <Link to="trending">Trending</Link>
+            <Link to="/trending">Trending</Link>
           </li>
           <li>
-            <Link to="featured">Featured</Link>
+            <Link to="/featured">Featured</Link>
           </li>
         </ul>
         <div className="user__detail__con">
