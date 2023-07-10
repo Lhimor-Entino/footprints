@@ -1,5 +1,5 @@
 {
-  "homepage": "http://Lhimor-Entino.github.io/footprints",
+  "homepage": "https://lhimor-entino.github.io/footprints",
   "name": "ecom",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.3.5",
+    "js-cookie": "^3.0.5",
     "multi-range-slider-react": "^2.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

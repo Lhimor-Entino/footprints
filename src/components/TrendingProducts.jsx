@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "../assests/css/TrendingProduct.css";
-function TrendingProducts(props) {
+function TrendingProducts({ api }) {
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  useEffect(() => {
+    api
+      .get("?page=getTrendingProducts")
+      .then((response) => {
+        setTrendingProducts(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div className="trending__product__container">
-      <ProductCard
+      {trendingProducts.map((product, index) => {
+        return (
+          <ProductCard
+            product_id={product.product_id}
+            img_src={[product.product_img]}
+            brand={product.brand_name}
+            description={product.product_name}
+            price={product.price}
+            additionalDesc={product.product_description}
+            colors={["White"]}
+            features={product.features}
+            sizes={product.sizes}
+            ratings={product.ratings}
+            is_sale={product.is_sale}
+            original_price={product.original_price}
+          />
+        );
+      })}
+      {/* <ProductCard
         img_src={[
           "https://underarmour.scene7.com/is/image/Underarmour/3026282-100_PAIR?rp=standard-30pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&cache=on,on&bgc=f0f0f0&wid=566&hei=708&size=536,688",
         ]}
@@ -60,8 +89,8 @@ function TrendingProducts(props) {
           "Heel & midfoot shanks provide locked-in stability",
           "Durable outsole with organic herringbone traction pattern for floor control & grip",
         ]}
-      />
-      <ProductCard
+      /> 
+       <ProductCard
         img_src={[
           "https://underarmour.scene7.com/is/image/Underarmour/3026282-100_PAIR?rp=standard-30pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&cache=on,on&bgc=f0f0f0&wid=566&hei=708&size=536,688",
         ]}
@@ -117,7 +146,7 @@ function TrendingProducts(props) {
           "Heel & midfoot shanks provide locked-in stability",
           "Durable outsole with organic herringbone traction pattern for floor control & grip",
         ]}
-      />
+      /> */}
     </div>
   );
 }

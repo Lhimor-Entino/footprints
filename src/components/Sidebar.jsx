@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../assests/css/Sidebar.css";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 import ArrowForwardIosRoundedIcon from "@material-ui/icons/ArrowForwardIosRounded";
@@ -7,7 +7,7 @@ import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
 import ExpandLessRoundedIcon from "@material-ui/icons/ExpandLessRounded";
 import ExpandMoreRoundedIcon from "@material-ui/icons/ExpandMoreRounded";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+
 function Sidebar({ page }) {
   const location = useLocation();
   const currentPage = location.pathname.substring(1);
@@ -21,17 +21,6 @@ function Sidebar({ page }) {
     set_maxValue(e.maxValue);
   };
 
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://myprojects-api.000webhostapp.com/")
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
   return (
     <div className="content__container">
       <div className="header">
@@ -107,9 +96,7 @@ function Sidebar({ page }) {
           onClick={() => settypeExpand(!typeExpand)}
         >
           <p>Type</p>
-          {products.map((product, index) => {
-            return <p>{product.name}</p>;
-          })}
+
           {typeExpand ? (
             <ExpandLessRoundedIcon className="expand__icon" />
           ) : (

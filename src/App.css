@@ -27,3 +27,10 @@
   width: 95%;
   margin: auto;
 }
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

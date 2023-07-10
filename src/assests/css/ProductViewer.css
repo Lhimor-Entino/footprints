@@ -109,3 +109,36 @@
   .size:not(:first-child) {
   margin-left: 1.3em;
 }
+
+.star__rating {
+  font-size: 0; /* Prevent whitespace between stars */
+  width: auto; /* Adjust the width of the star rating container as needed */
+}
+.star__rating__border {
+  font-size: 0; /* Prevent whitespace between stars */
+  width: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.stars {
+  display: flex;
+  flex-direction: row;
+  background-size: cover;
+  overflow-x: hidden;
+  /* width: 50%; This will be adjusted dynamically using JavaScript */
+  z-index: 10;
+}
+.star__rating .stars .star__icon {
+  font-size: 0.8rem;
+  color: rgb(255, 132, 0);
+  z-index: -10;
+}
+.stars_border {
+  display: flex;
+  flex-direction: row;
+  background-size: cover;
+  overflow-x: hidden;
+  width: 100%;
+  z-index: 10;
+}

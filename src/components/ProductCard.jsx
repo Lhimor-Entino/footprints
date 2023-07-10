@@ -3,7 +3,7 @@ import "../assests/css/ProductCard.css";
 import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { Link, createSearchParams, json } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 function ProductCard({
@@ -15,6 +15,11 @@ function ProductCard({
   colors,
   additionalDesc,
   features,
+  sizes,
+  ratings,
+  product_id,
+  is_sale,
+  original_price,
 }) {
   const [isHovering, setIsHovering] = useState(false);
   const [activeColor, setactiveColor] = useState(0);
@@ -93,7 +98,9 @@ function ProductCard({
             pathname: "/view",
             search: `?name=${description}&price=${price}&img_url=${imgSource}&additionalDesc=${additionalDesc}&features=${encodeURIComponent(
               JSON.stringify(features)
-            )}`,
+            )}&sizes=${encodeURIComponent(
+              JSON.stringify(sizes)
+            )}&ratings=${ratings}&productID=${product_id}`,
           }}
         >
           <img src={imgSource} alt="product_img" />
@@ -107,9 +114,24 @@ function ProductCard({
       <div className="product__footer">
         <p>Price</p>
         <div className="cart__btn__con">
-          <span>{price} $</span>
+          <span
+            style={{
+              textDecoration: is_sale == 1 ? "line-through" : "",
+              color: is_sale == 1 ? "rgb(170, 170, 170)" : "#000",
+            }}
+          >
+            {original_price} $
+          </span>
+
           <ShoppingBasketOutlinedIcon />
         </div>
+        {is_sale == 1 ? (
+          <span style={{ fontSize: "0.7rem", fontWeight: "600" }}>
+            {price} $
+          </span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="color__picker_con">
         <animated.div
