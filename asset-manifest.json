@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/footprints/static/css/main.bf71f009.css",
+    "main.js": "/footprints/static/js/main.473aba29.js",
+    "static/media/sale_icon.png": "/footprints/static/media/sale_icon.e40f1f31d1b667836304.png",
+    "index.html": "/footprints/index.html",
+    "main.bf71f009.css.map": "/footprints/static/css/main.bf71f009.css.map",
+    "main.473aba29.js.map": "/footprints/static/js/main.473aba29.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bf71f009.css",
+    "static/js/main.473aba29.js"
+  ]
+}
