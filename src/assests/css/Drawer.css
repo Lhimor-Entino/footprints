@@ -46,10 +46,14 @@
 .drawer__container ul li {
   list-style: none;
 }
+#product__info p {
+  color: gray;
+}
 .drawer__container ul li:hover {
   background-color: rgb(249, 245, 246);
   box-shadow: rgba(64, 63, 63, 0.2) 0px 12px 28px 0px,
     rgba(202, 59, 59, 0.1) 0px 2px 4px 0px,
     rgba(133, 129, 129, 0.05) 0px 0px 0px 1px inset;
   border-radius: 5px;
+  cursor: pointer;
 }

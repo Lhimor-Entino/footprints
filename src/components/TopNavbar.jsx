@@ -33,6 +33,7 @@ function TopNavbar({ wishlist, cartItems, handleShowDrawer, saveToCart }) {
             <Link to="featured">Featured</Link>
           </li>
         </ul>
+
         <div className="user__detail__con">
           <div className="user__wishList" onClick={() => handleShowDrawer(0)}>
             <StyledBadge badgeContent={wishlist.length} color="secondary">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../assests/css/ProductCard.css";
 import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -6,10 +6,13 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import { IconButton } from "@material-ui/core";
+import Tooltip from "@material-ui/core/Tooltip";
 function ProductCard({
   img_src,
   brand,
-  description,
+  name,
   price,
   product_status,
   colors,
@@ -20,12 +23,27 @@ function ProductCard({
   product_id,
   is_sale,
   original_price,
+  wishlist,
+  handleRemoveWishlist,
+  handleAddWishlist,
 }) {
   const [isHovering, setIsHovering] = useState(false);
   const [activeColor, setactiveColor] = useState(0);
   const [imgSource, setimgSource] = useState(
     img_src.length > 0 ? img_src[0] : img_src
   );
+
+  const wishlistData = {
+    product_id: product_id,
+    product_name: name,
+    price,
+    product_img: img_src,
+    product_description: additionalDesc,
+    features,
+    sizes,
+    ratings,
+  };
+
   const handleHover = (index) => {
     setIsHovering(true);
     console.log(img_src[index]);
@@ -48,6 +66,13 @@ function ProductCard({
     width: clicked ? "100%" : "0%",
     config: { duration: 250 },
   });
+
+  const inWishlist = () => {
+    const is_exist = wishlist.some(
+      (item, index) => product_id == item.product_id
+    );
+    return is_exist;
+  };
 
   return (
     <div className="product__container">
@@ -90,17 +115,36 @@ function ProductCard({
         ) : (
           ""
         )}
-        <FavoriteBorderIcon />
+
+        {inWishlist() ? (
+          <Tooltip title="Remove From Wishlist" arrow>
+            <IconButton
+              style={{ padding: "5px 5px" }}
+              onClick={() => handleRemoveWishlist(product_id)}
+            >
+              <FavoriteIcon style={{ color: "rgb(243, 8, 74)" }} />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Add To Wishlist" arrow>
+            <IconButton
+              style={{ padding: 0 }}
+              onClick={() => handleAddWishlist(wishlistData)}
+            >
+              <FavoriteBorderIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </div>
       <div className="product__img">
         <Link
           to={{
             pathname: "/view",
-            search: `?name=${description}&price=${price}&img_url=${imgSource}&additionalDesc=${additionalDesc}&features=${encodeURIComponent(
+            search: `?name=${name}&price=${price}&img_url=${imgSource}&additionalDesc=${additionalDesc}&features=${encodeURIComponent(
               JSON.stringify(features)
             )}&sizes=${encodeURIComponent(
               JSON.stringify(sizes)
-            )}&ratings=${ratings}&productID=${product_id}`,
+            )}&ratings=${ratings}&productID=${product_id}&is_sale=${is_sale}`,
           }}
         >
           <img src={imgSource} alt="product_img" />
@@ -109,7 +153,7 @@ function ProductCard({
 
       <div className="product__details">
         <p>{brand}</p>
-        <p>{description}</p>
+        <p>{name}</p>
       </div>
       <div className="product__footer">
         <p>Price</p>
@@ -152,7 +196,7 @@ function ProductCard({
               <Link
                 to={{
                   pathname: "/view",
-                  search: `?name=${description}&price=${price}&img_url=${imgSource}&additionalDesc=${additionalDesc}&features=${encodeURIComponent(
+                  search: `?name=${name}&price=${price}&img_url=${imgSource}&additionalDesc=${additionalDesc}&features=${encodeURIComponent(
                     JSON.stringify(features)
                   )}`,
                 }}

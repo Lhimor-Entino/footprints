@@ -5,7 +5,19 @@ import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Button from "@material-ui/core/Button";
 import Cookies from "js-cookie";
-function ProductViewer({ wishlist, setWishlist, cartItems, setCartItems }) {
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import { IconButton } from "@material-ui/core";
+function ProductViewer({
+  wishlist,
+  setWishlist,
+  cartItems,
+  setCartItems,
+  handleAddWishlist,
+  handleRemoveWishlist,
+  handleAddCartItems,
+  handleRemoveCartItem,
+}) {
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
@@ -17,6 +29,7 @@ function ProductViewer({ wishlist, setWishlist, cartItems, setCartItems }) {
   const sizes = JSON.parse(searchParams.get("sizes"));
   const ratings = searchParams.get("ratings");
   const productId = searchParams.get("productID");
+  const is_sale = searchParams.get("is_sale");
   const options = {
     expires: 30,
     secure: false,
@@ -24,48 +37,61 @@ function ProductViewer({ wishlist, setWishlist, cartItems, setCartItems }) {
     domain: window.location.hostname,
   };
 
-  const handleAddWishlist = () => {
-    const data = {
-      product_id: productId,
-      product_name: name,
-      price,
-      product_img: img_src,
-      product_description: additionalDesc,
-      features,
-      sizes,
-      ratings,
-    };
-    const newWishList = [...wishlist, data];
-    setWishlist(newWishList);
-    console.log(newWishList);
-    Cookies.set("wl", JSON.stringify(newWishList), options);
+  const wishlistData = {
+    product_id: productId,
+    product_name: name,
+    price,
+    product_img: img_src,
+    // product_description: additionalDesc,
+    // features,
+    // sizes,
+    // ratings,
+  };
+  const cartData = {
+    product_id: productId,
+    product_name: name,
+    price,
+    product_img: img_src,
+    // product_description: additionalDesc,
+    // features,
+    // sizes,
+    // ratings,
+    quantity: 1,
   };
 
-  const handleAddToCart = () => {
-    const data = {
-      product_id: productId,
-      product_name: name,
-      price,
-      product_img: img_src,
-      product_description: additionalDesc,
-      features,
-      sizes,
-      ratings,
-    };
+  const inCart = () => {
+    const is_exist = cartItems.some(
+      (item, index) => item.product_id == productId
+    );
 
-    const newCartItems = [...cartItems, data];
-
-    setCartItems(newCartItems);
-    Cookies.set("ci", JSON.stringify(newCartItems), options);
+    return is_exist;
   };
+  const inWishlist = () => {
+    const is_exist = wishlist.some(
+      (item, index) => item.product_id == productId
+    );
+
+    return is_exist;
+  };
+  const getQuantity = () => {
+    const foundItem = cartItems.find((item) => item.product_id === productId);
+    if (foundItem) {
+      return foundItem.quantity;
+    }
+  };
+
   return (
     <div className="product__viewer_con">
-      {/* <button
-        onClick={() => console.log(searchParams.get("features").trimEnd())}
-      >
-        sdas
-      </button> */}
       <div className="product__img">
+        {is_sale == 1 ? (
+          <img
+            src={require("../assests/img/sale_icon.png")}
+            className="sale_logo"
+          />
+        ) : (
+          ""
+        )}
+
         <img src={img_src} />
       </div>
       <div className="product__details">
@@ -124,24 +150,75 @@ function ProductViewer({ wishlist, setWishlist, cartItems, setCartItems }) {
             })}
           </div>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <div className="addCart__btn">
-            <Button
-              size="small"
-              style={{ textTransform: "none" }}
-              onClick={() => handleAddToCart()}
-            >
-              Add To Cart
-            </Button>
+            {inCart() ? (
+              <div
+                style={{
+                  width: "100%",
+
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <IconButton
+                  aria-label="add"
+                  style={{ padding: "2px 8px" }}
+                  onClick={() => handleAddCartItems(productId, 1)}
+                >
+                  <AddCircleIcon />
+                </IconButton>
+                <div
+                  style={{
+                    backgroundColor: inCart() ? "rgb(253, 206, 223)" : "none",
+                    padding: "5px 20px",
+                    borderRadius: "5px",
+                    margin: "0 3px",
+                  }}
+                >
+                  <p>{getQuantity()}</p>
+                </div>
+                <IconButton
+                  aria-label="remove"
+                  style={{ padding: "2px 8px" }}
+                  onClick={() => handleRemoveCartItem(productId)}
+                >
+                  <RemoveCircleIcon />
+                </IconButton>
+              </div>
+            ) : (
+              <Button
+                size="small"
+                style={{ textTransform: "none" }}
+                onClick={() => handleAddCartItems(cartData, 0)}
+              >
+                Add To Cart
+              </Button>
+            )}
           </div>
-          <div className="addCart__btn" style={{ marginLeft: "1.5em" }}>
-            <Button
-              size="small"
-              style={{ textTransform: "none" }}
-              onClick={() => handleAddWishlist()}
-            >
-              Add Wishlist
-            </Button>
+          <div
+            className="addCart__btn"
+            id="addWishlist__btn"
+            style={{ marginLeft: "1.5em" }}
+          >
+            {inWishlist() ? (
+              <Button
+                size="small"
+                style={{ textTransform: "none" }}
+                onClick={() => handleRemoveWishlist(productId)}
+              >
+                Remove Wishlist
+              </Button>
+            ) : (
+              <Button
+                size="small"
+                style={{ textTransform: "none" }}
+                onClick={() => handleAddWishlist(wishlistData)}
+              >
+                Add Wishlist
+              </Button>
+            )}
           </div>
         </div>
 

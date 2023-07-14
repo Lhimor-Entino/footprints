@@ -12,6 +12,8 @@ import Payment from "./components/Payment";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "./config";
+import Cart from "./components/Cart";
+import { useLocation } from "react-router-dom";
 
 // CREATE AXIOS BASE URL
 const api = axios.create({
@@ -19,7 +21,8 @@ const api = axios.create({
 });
 function App() {
   const [isloggedIn, setIsLoggedIn] = useState(false);
-
+  const location = useLocation();
+  const currentPage = location.pathname.substring(1);
   const getWishlist = () => {
     if (Cookies.get("wl")) {
       const cookieValue = Cookies.get("wl");
@@ -43,6 +46,90 @@ function App() {
   const [wishlist, setWishlist] = useState(getWishlist() || []);
   const [cartItems, setCartItems] = useState(getCartItems() || []);
 
+  const [whatToShow, setWharToShow] = useState(null); // 0 is wishlist 1 is cart
+  const [showDrawer, setShowDrawer] = useState(false);
+
+  const options = {
+    expires: 30,
+    secure: false,
+    sameSite: "lax",
+    domain: window.location.hostname,
+  };
+
+  const handleShowDrawer = (what) => {
+    setWharToShow(what);
+    setShowDrawer(true);
+    console.log(cartItems);
+  };
+
+  const getQuantity = (product_id) => {
+    const foundItem = cartItems.find((item) => item.product_id === product_id);
+    if (foundItem) {
+      return foundItem.quantity;
+    }
+  };
+  const handleRemoveWishlist = (p_id) => {
+    const updatedWishlist = wishlist.filter(
+      (item, index) => item.product_id != p_id
+    );
+    setWishlist(updatedWishlist);
+
+    Cookies.set("wl", JSON.stringify(updatedWishlist), options); // UPDATE THE COOKIE
+    console.log(updatedWishlist);
+  };
+
+  const handleAddWishlist = (prod_details) => {
+    console.log(prod_details);
+    const updatedWishlist = [...wishlist, prod_details];
+    setWishlist(updatedWishlist);
+    Cookies.set("wl", JSON.stringify(updatedWishlist), options); // UPDATE THE COOKIE
+  };
+
+  const handleAddCartItems = (prod_details, add_type) => {
+    // ADD TYPE 0 -> ADD PRODUCT TYPE 1 -> ADD QUANTITY OF THE PRODUCT
+
+    if (add_type === 0) {
+      const updatedCart = [...cartItems, prod_details]; // if ADD TYPE IS 0 THIS prod_details VALUE WILL BE THE product details
+      console.log(updatedCart);
+      setCartItems(updatedCart);
+      try {
+        Cookies.set("ci", JSON.stringify(updatedCart), options); // UPDATE THE COOKIE
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (add_type === 1) {
+      const quantity = getQuantity(prod_details) + 1;
+
+      const updatedCart = cartItems.map((items, index) =>
+        items.product_id == prod_details
+          ? { ...items, quantity: quantity }
+          : items
+      );
+
+      setCartItems(updatedCart);
+      Cookies.set("ci", JSON.stringify(updatedCart), options); // UPDATE THE COOKIE
+    }
+  };
+
+  const handleRemoveCartItem = (product_id) => {
+    const quantity = getQuantity(product_id) - 1;
+
+    if (quantity > 0) {
+      const updatedCart = cartItems.map((item, index) =>
+        item.product_id == product_id ? { ...item, quantity: quantity } : item
+      );
+      setCartItems(updatedCart);
+      Cookies.set("ci", JSON.stringify(updatedCart), options); // UPDATE THE COOKIE
+    } else {
+      const updatedCart = cartItems.filter(
+        (item, index) => item.product_id != product_id
+      );
+
+      setCartItems(updatedCart);
+      Cookies.set("ci", JSON.stringify(updatedCart), options); // UPDATE THE COOKIE
+    }
+  };
+
   useEffect(() => {
     if (isloggedIn) {
       api
@@ -56,6 +143,7 @@ function App() {
         });
     }
   }, []);
+
   const saveToCart = () => {
     const formData = new FormData();
     if (cartItems.length > 0) {
@@ -78,12 +166,28 @@ function App() {
     }
   };
 
+  const clearCart = () => {
+    if (Cookies.get("ci")) {
+      Cookies.remove("ci", { domain: window.location.hostname });
+    }
+    setCartItems([]);
+  };
+  const clearWishlist = () => {
+    if (Cookies.get("wl")) {
+      Cookies.remove("wl", { domain: window.location.hostname });
+    }
+    setWishlist([]);
+  };
   return (
     <div className="App">
       {/* <Router> */}
-      <div className="sidebar">
-        <Sidebar page={page} setPage={setPage} />
-      </div>
+      {currentPage == "cart" ? (
+        ""
+      ) : (
+        <div className="sidebar">
+          <Sidebar page={page} setPage={setPage} />
+        </div>
+      )}
 
       {/* <body/> */}
       <div className="body">
@@ -95,27 +199,108 @@ function App() {
                 wishlist={wishlist}
                 cartItems={cartItems}
                 saveToCart={saveToCart}
+                clearCart={clearCart}
+                clearWishlist={clearWishlist}
+                whatToShow={whatToShow}
+                showDrawer={showDrawer}
+                handleShowDrawer={handleShowDrawer}
+                setShowDrawer={setShowDrawer}
               />
             }
           >
-            <Route path="/" element={<Catalog api={api} />} />
-            <Route path="catalog" element={<Catalog api={api} />} />
-            <Route path="new" element={<NewProducts api={api} />} />
-            <Route path="trending" element={<TrendingProducts api={api} />} />
-            <Route path="featured" element={<FeaturedProducts api={api} />} />
+            <Route
+              path="/"
+              name="catalog"
+              element={
+                <Catalog
+                  api={api}
+                  wishlist={wishlist}
+                  handleRemoveWishlist={handleRemoveWishlist}
+                  handleAddWishlist={handleAddWishlist}
+                />
+              }
+            />
+            <Route
+              path="catalog"
+              name="catalog"
+              element={
+                <Catalog
+                  api={api}
+                  wishlist={wishlist}
+                  handleRemoveWishlist={handleRemoveWishlist}
+                  handleAddWishlist={handleAddWishlist}
+                />
+              }
+            />
+            <Route
+              path="new"
+              name="new"
+              element={
+                <NewProducts
+                  api={api}
+                  wishlist={wishlist}
+                  handleRemoveWishlist={handleRemoveWishlist}
+                  handleAddWishlist={handleAddWishlist}
+                />
+              }
+            />
+            <Route
+              path="trending"
+              name="trending"
+              element={
+                <TrendingProducts
+                  api={api}
+                  wishlist={wishlist}
+                  handleRemoveWishlist={handleRemoveWishlist}
+                  handleAddWishlist={handleAddWishlist}
+                />
+              }
+            />
+            <Route
+              path="featured"
+              name="featured"
+              element={
+                <FeaturedProducts
+                  api={api}
+                  wishlist={wishlist}
+                  handleRemoveWishlist={handleRemoveWishlist}
+                  handleAddWishlist={handleAddWishlist}
+                />
+              }
+            />
             <Route
               path="view"
+              name="view"
               element={
                 <ProductViewer
                   wishlist={wishlist}
                   setWishlist={setWishlist}
                   cartItems={cartItems}
                   setCartItems={setCartItems}
+                  handleAddWishlist={handleAddWishlist}
+                  handleRemoveWishlist={handleRemoveWishlist}
+                  handleAddCartItems={handleAddCartItems}
+                  handleRemoveCartItem={handleRemoveCartItem}
                 />
               }
             />
+
             <Route path="payment" element={<Payment />} />
           </Route>
+
+          <Route
+            path="cart"
+            name="cart"
+            element={
+              <Cart
+                wishlist={wishlist}
+                cartItems={cartItems}
+                handleShowDrawer={handleShowDrawer}
+                handleRemoveCartItem={handleRemoveCartItem}
+                handleAddCartItems={handleAddCartItems}
+              />
+            }
+          ></Route>
         </Routes>
       </div>
       {/* </Router> */}

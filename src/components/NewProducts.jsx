@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "../assests/css/NewProduct.css";
 
-function NewProducts({ api }) {
+function NewProducts({
+  api,
+  wishlist,
+  handleRemoveWishlist,
+  handleAddWishlist,
+}) {
   const [newProducts, setNewProducts] = useState([]);
   useEffect(() => {
     api
@@ -19,19 +24,22 @@ function NewProducts({ api }) {
       {newProducts.map((product, index) => {
         return (
           <ProductCard
+            wishlist={wishlist}
             product_id={product.product_id}
             img_src={[product.product_img]}
             brand={product.brand_name}
-            description={product.product_name}
+            name={product.product_name}
             price={product.price}
             additionalDesc={product.product_description}
             colors={["White"]}
             features={product.features}
             sizes={product.sizes}
             ratings={product.ratings}
-            product_status={1}
+            product_status={product.is_new == 1 ? 1 : 0}
             is_sale={product.is_sale}
             original_price={product.original_price}
+            handleRemoveWishlist={handleRemoveWishlist}
+            handleAddWishlist={handleAddWishlist}
           />
         );
       })}

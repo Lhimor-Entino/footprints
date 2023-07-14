@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "../assests/css/Catalog.css";
 
-function Catalog({ api }) {
+function Catalog({ api, wishlist, handleRemoveWishlist, handleAddWishlist }) {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     api
@@ -19,10 +19,11 @@ function Catalog({ api }) {
       {products.map((product, index) => {
         return (
           <ProductCard
+            wishlist={wishlist}
             product_id={product.product_id}
             img_src={[product.product_img]}
             brand={product.brand_name}
-            description={product.product_name}
+            name={product.product_name}
             price={product.price}
             additionalDesc={product.product_description}
             colors={["White"]}
@@ -32,6 +33,8 @@ function Catalog({ api }) {
             product_status={product.is_new == 1 ? 1 : 0}
             is_sale={product.is_sale}
             original_price={product.original_price}
+            handleRemoveWishlist={handleRemoveWishlist}
+            handleAddWishlist={handleAddWishlist}
           />
         );
       })}
